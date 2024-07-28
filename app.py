@@ -40,7 +40,9 @@ def scrape():
 
         try:
             # Try to find the product price
-            productPrice = div.find("span", class_="a-offscreen").text.strip()
+            productPrice_raw = div.find("span", class_="a-offscreen").text.strip()
+            # Extract only the numeric part of the product price
+            productPrice = ''.join(char for char in productPrice_raw if char.isdigit() or char == '.')
             print(f"Product Price: {productPrice}")
         except AttributeError:
             productPrice = "Price Unavailable"
@@ -52,8 +54,8 @@ def scrape():
         except AttributeError:
             productLink = "Link Unavailable"
 
-        # Add 'https://www.Amazon.sg' in front of each link
-        productLink = f"https://www.Amazon.sg{productLink}"
+        # Add 'www.Amazon.sg' in front of each link
+        productLink = f"www.Amazon.sg{productLink}"
 
         try:
             # Try to find the product image
